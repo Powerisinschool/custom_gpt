@@ -1,0 +1,123 @@
+<div align="center">
+
+# `custom_gpt`
+
+**A modular C++ implementation of a GPT transformer model and Byte-Pair Encoding (BPE) tokenizer with Python bindings.**
+
+@theme bg = 0D1117 | F6F8FA
+@theme accent = 58A6FF | 0969DA
+@theme card = 161B22 | EAEEF2
+@theme text = C9D1D9 | 24292F
+
+@def badge(alt, label, logo) = ![{alt}](https://img.shields.io/badge/{label}-{card}?style=for-the-badge&logo={logo}&logoColor={accent})
+
+<p>
+  @badge(C++, C%2B%2B17, cplusplus)
+  @badge(Python, Python_3.8+, python)
+  @badge(CMake, CMake_3.14+, cmake)
+</p>
+
+</div>
+
+---
+
+### Overview
+
+`custom_gpt` is a lightweight C++ library and Python training framework designed to demonstrate the core components of a generative pre-trained transformer (GPT) architecture built from first principles.
+
+By implementing both the Byte-Pair Encoding (BPE) tokenization system and multi-head self-attention mechanics directly in C++, this project offers low-overhead inference along with Python bindings for flexible model training workflows.
+
+---
+
+### Key Features
+
+- **Custom C++ BPE Tokenizer:** Node-based Byte-Pair Encoding engine (`bpe_node.hpp`, `hash_utils.hpp`) supporting dynamic vocabulary building, fast encoding/decoding, and serialization.
+- **Modular Transformer Components:**
+  - **Embeddings:** Learnable token embeddings and positional encodings.
+  - **Multi-Head Self-Attention:** Multi-head attention mechanism computed via Query ($Q$), Key ($K$), and Value ($V$) projections with causal masking.
+  - **Feed-Forward Layers:** Position-wise feed-forward networks with activation functions.
+  - **Transformer Blocks:** Residual connection layer normalization around attention and FFN modules.
+- **Python Interoperability:** Pybind11 integration (`tokenizer_bindings.cpp`) enabling model training in Python and rapid inference execution in C++.
+
+---
+
+### Architecture & Mathematical Foundations
+
+The core model processes sequence embeddings through stacked transformer decoder blocks:
+
+1. **Scaled Dot-Product Self-Attention:**
+   $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+   Where $Q$, $K$, and $V$ represent sequence projections computed using learned weight matrices $W_Q$, $W_K$, and $W_V$.
+
+2. **Position-Wise Feed-Forward Network:**
+   $$\text{FFN}(x) = \max(0, x W_1 + b_1) W_2 + b_2$$
+
+---
+
+### Quick Start
+
+#### 1. Build C++ Model & Executable
+
+```bash
+# Create build directory and run CMake
+mkdir -p build && cd build
+cmake ..
+make -j4
+
+# Run C++ demonstration executable
+./custom_gpt
+```
+
+#### 2. Python Training Pipeline
+
+```bash
+# Train lightweight micro model
+python scripts/train_micro_model.py
+
+# Train on English text dataset
+python scripts/train_english.py
+```
+
+---
+
+### Repository Structure
+
+```text
+custom_gpt/
+├── CMakeLists.txt                 # CMake build configuration
+├── tokenizer_bindings.cpp         # Pybind11 C++/Python tokenizer wrapper
+├── include/
+│   └── custom_gpt/
+│       ├── attention.hpp          # Multi-head attention layer declarations
+│       ├── bpe_node.hpp           # BPE tree/node structure definition
+│       ├── embedding.hpp          # Token embedding layer header
+│       ├── feed_forward.hpp       # Feed-forward network header
+│       ├── hash_utils.hpp         # Hashing utilities for BPE vocabulary
+│       ├── positional_encoding.hpp# Positional encoding header
+│       ├── tokenizer.hpp          # BPE Tokenizer class declaration
+│       └── transformer_block.hpp  # Transformer block layer header
+├── src/
+│   ├── attention.cpp            # Multi-head attention implementation
+│   ├── embedding.cpp            # Token embedding matrix implementation
+│   ├── feed_forward.cpp         # FFN implementation with activations
+│   ├── main.cpp                 # Entry point & inference demo execution
+│   ├── positional_encoding.cpp  # Positional encoding implementation
+│   ├── tokenizer.cpp            # Custom BPE encoding/decoding engine
+│   └── transformer_block.cpp    # Full transformer block assembly
+├── scripts/
+│   ├── train_micro_model.py     # Lightweight model training script
+│   └── train_english.py         # English dataset training script
+└── data/
+    ├── raw_text.txt             # Raw sample text fixture
+    └── test_text.txt            # Test fixture for tokenizer validation
+```
+
+---
+
+### Roadmap
+
+- [x] Custom C++ BPE Tokenizer & Hashing Utilities
+- [x] Multi-Head Self-Attention & Transformer Block implementations
+- [x] Pybind11 bindings for tokenizer integration in Python
+- [ ] SIMD / OpenMP acceleration for vector math operations
+- [ ] Weight export utility to standardized model formats

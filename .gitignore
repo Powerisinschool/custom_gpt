@@ -1,0 +1,18 @@
+# Build Artifacts
+/cmake-build-*/
+/.venv/
+/build/
+/bin/
+*.so
+*.pyd
+
+# IDE files
+/.junie/
+/.idea/
+*.iml
+.DS_Store
+
+# Large Datasets & Generated Artifacts
+/data/shakespeare.txt
+/scripts/vocab.json
+*.bin
